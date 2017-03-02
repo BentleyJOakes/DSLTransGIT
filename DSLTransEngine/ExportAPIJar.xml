@@ -3,9 +3,9 @@
 	<!-- See http://stackoverflow.com/questions/1274879/ant-exclude-files-from-merged-jar-file -->
 	<target name="main">
 		<jar destfile="exportedlib/dsltrans_engine_metainf.jar">
-			<fileset dir="../DSLTransEditor2.0/bin" />
-			<fileset dir="bin" />
-			<zipgroupfileset dir="lib" includes="*.jar">
+			<!--<fileset dir="../DSLTransEditor2.0/bin" />-->
+			<fileset dir="out/production/DSLTransEngine/" />
+			<zipgroupfileset dir="lib" includes="tools.jar">
 			</zipgroupfileset>
 		</jar>
 		<sleep seconds="1"/>
