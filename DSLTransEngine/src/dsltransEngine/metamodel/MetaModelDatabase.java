@@ -1,7 +1,7 @@
 package dsltransEngine.metamodel;
 
 import dsltransEngine.transformer.exceptions.InvalidLayerRequirement;
-import dsltransEngine.transformer.exceptions.UnsuportedMetamodelException;
+import dsltransEngine.transformer.exceptions.UnsupportedMetamodelException;
 
 import java.util.*;
 
@@ -104,7 +104,7 @@ public class MetaModelDatabase {
 		throw new InvalidLayerRequirement("Cannot resolve attribute name: " + name);
 	}
 	
-	public MetaEntity getRootMetaEntity() throws UnsuportedMetamodelException {
+	public MetaEntity getRootMetaEntity() throws UnsupportedMetamodelException {
 		System.out.println("Finding root entity in metamodel... ");
 		// root entity is the one such that there are no relations which have it on target role
 		
@@ -120,6 +120,7 @@ public class MetaModelDatabase {
 		MetaEntity chosen = null;
 		int counter = 0;
 		for(MetaEntity entity : getMetaEntities()) {
+
 			if(!isContainedIn(entity,targetEntities) 
 					&& !isSubTypeContainedIn(entity,targetEntities) 
 					&& !entity.isAbstract()) {
@@ -132,11 +133,13 @@ public class MetaModelDatabase {
 		}
 		
 		if(counter > 1) {
-			throw new UnsuportedMetamodelException("Found " + counter + " roots! Please create a simple root in the metamodel that contains entity " + chosen.getQualifiedName());
+			String errorMsg = "Error: Found " + counter + " roots!";
+			errorMsg += " Please create a simple root in the metamodel that contains entity " + chosen.getQualifiedName();
+			throw new UnsupportedMetamodelException(errorMsg);
 		}
 		
 		if (counter == 0) {
-			throw new UnsuportedMetamodelException("All the metamodels must have a root EClass.");
+			throw new UnsupportedMetamodelException("All the metamodels must have a root EClass.");
 		}
 
 		System.out.println("Finding root entity in metamodel... DONE");

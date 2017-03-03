@@ -6,7 +6,7 @@ import dsltransEngine.model.InstanceAttribute;
 import dsltransEngine.model.InstanceDatabase;
 import dsltransEngine.model.InstanceRelation;
 import dsltransEngine.transformer.exceptions.InvalidLayerRequirement;
-import dsltransEngine.transformer.exceptions.UnsuportedMetamodelException;
+import dsltransEngine.transformer.exceptions.UnsupportedMetamodelException;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -29,7 +29,7 @@ public class GenericModelLoader implements ModelLoader {
 			throws ClassNotFoundException, SecurityException,
 			NoSuchFieldException, IllegalArgumentException,
 			IllegalAccessException, NoSuchMethodException,
-			InvocationTargetException, UnsuportedMetamodelException, InvalidLayerRequirement {
+			InvocationTargetException, UnsupportedMetamodelException, InvalidLayerRequirement {
 		
 		GenericMetaEntity classA = (GenericMetaEntity) this.metamodelDatabase.getMetaEntityByName("samplenamespace", "ClassA");
 		

@@ -41,7 +41,7 @@ public abstract class InstanceEntity {
 		while(iter.hasNext())
 		{
 			MetaRelation meta = iter.next();
-			if(meta.getName() == mr.getName())
+			if(meta.getName().equals(mr.getName()))
 				return true;
 		}
 		return false;
@@ -62,7 +62,7 @@ public abstract class InstanceEntity {
 		while(iter.hasNext())
 		{
 			MetaAttribute meta = iter.next();
-			if(meta.getName() == ma.getName() && meta.getType() == ma.getType())
+			if(meta.getName().equals(ma.getName()) && meta.getType() == ma.getType())
 				return true;
 		}
 		return false;

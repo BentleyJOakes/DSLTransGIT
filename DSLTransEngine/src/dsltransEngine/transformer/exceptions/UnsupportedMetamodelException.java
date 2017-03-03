@@ -1,8 +1,8 @@
 package dsltransEngine.transformer.exceptions;
 
-public class UnsuportedMetamodelException extends Exception {
+public class UnsupportedMetamodelException extends Exception {
 
-	public UnsuportedMetamodelException(String string) {
+	public UnsupportedMetamodelException(String string) {
 		super(string);
 	}
 

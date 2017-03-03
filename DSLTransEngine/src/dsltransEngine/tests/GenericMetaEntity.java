@@ -30,12 +30,12 @@ public class GenericMetaEntity implements MetaEntity {
 
 	@Override
 	public String getDotNotation() {
-		return packageName + '.' + name;
+		return getQualifiedName();
 	}
 
 	@Override
 	public String getQualifiedName() {
-		return namespace + '.' + packageName;
+		return namespace + '.' + packageName + '.' + name;
 	}
 
 	@Override

@@ -10,6 +10,7 @@ public class TransformationSourceException extends Exception {
 	
 	public TransformationSourceException(String string,
 			TransformationSource transformationSource, Exception e) {
+		super(string);
 		_message = string;
 		_source = transformationSource;
 		_originException = e;
@@ -22,7 +23,7 @@ public class TransformationSourceException extends Exception {
 
 	@Override
 	public void printStackTrace() {
-		System.err.println("message: " + _message + " from: " + _source.toString());
+		System.err.println("Exception:" + _message + " from: " + _source.toString());
 		_originException.printStackTrace();
 	}
 }

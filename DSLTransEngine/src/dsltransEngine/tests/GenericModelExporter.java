@@ -3,7 +3,7 @@ package dsltransEngine.tests;
 import dsltransEngine.io.ModelExporter;
 import dsltransEngine.metamodel.MetaModelDatabase;
 import dsltransEngine.model.InstanceDatabase;
-import dsltransEngine.transformer.exceptions.UnsuportedMetamodelException;
+import dsltransEngine.transformer.exceptions.UnsupportedMetamodelException;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -33,7 +33,7 @@ public class GenericModelExporter implements ModelExporter {
 			IllegalArgumentException, ClassNotFoundException,
 			NoSuchFieldException, IllegalAccessException, IOException,
 			InvocationTargetException, NoSuchMethodException,
-			UnsuportedMetamodelException {
+            UnsupportedMetamodelException {
 		assert instanceDatabase != null;
 		assert metamodelDatabase != null;
 		persistenceLayer.outputModel = (GenericInstanceDatabase) instanceDatabase;
