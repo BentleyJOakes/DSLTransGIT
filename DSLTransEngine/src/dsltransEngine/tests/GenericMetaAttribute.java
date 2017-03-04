@@ -23,7 +23,7 @@ public class GenericMetaAttribute implements MetaAttribute {
 	}
 
 	@Override
-	public MetaEntity getContainnerMetaEntity() {
+	public MetaEntity getContainerMetaEntity() {
 		return containnerEntity;
 	}
 
@@ -44,8 +44,8 @@ public class GenericMetaAttribute implements MetaAttribute {
 
 	@Override
 	public boolean isInheritedFrom(MetaEntity me) {
-		if(me == this.getContainnerMetaEntity()) return true;		
-		return me.isSubTypeOf(this.getContainnerMetaEntity());
+		if(me == this.getContainerMetaEntity()) return true;
+		return me.isSubTypeOf(this.getContainerMetaEntity());
 	}
 
 	@Override

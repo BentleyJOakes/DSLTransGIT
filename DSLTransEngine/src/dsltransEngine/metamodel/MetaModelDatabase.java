@@ -41,7 +41,7 @@ public class MetaModelDatabase {
 			}
 		}{
 			for(MetaAttribute ma : getMetaAttributes()) {
-				if(ma.getContainnerMetaEntity() == me)
+				if(ma.getContainerMetaEntity() == me)
 					if(!result.contains(ma))
 						result.add(ma);
 			}
@@ -104,10 +104,12 @@ public class MetaModelDatabase {
 		throw new InvalidLayerRequirement("Cannot resolve attribute name: " + name);
 	}
 	
-	public MetaEntity getRootMetaEntity() throws UnsupportedMetamodelException {
-		System.out.println("Finding root entity in metamodel... ");
+	public HashSet<MetaEntity> getRootMetaEntities() throws UnsupportedMetamodelException {
+		System.out.println("Finding root entities in metamodel... ");
 		// root entity is the one such that there are no relations which have it on target role
-		
+
+		HashSet<MetaEntity> rootEntities = new HashSet<MetaEntity>();
+
 		// so search on MetaRelations and gather all target MetaEntities
 		Set<MetaEntity> targetEntities = Collections.synchronizedSet(new HashSet<MetaEntity>());
 		for(MetaRelation relation : getMetaRelations()) {
@@ -117,34 +119,35 @@ public class MetaModelDatabase {
 		}
 		
 		// And then select all Entities that are not target Entities
-		MetaEntity chosen = null;
-		int counter = 0;
+		//MetaEntity chosen = null;
+		//int counter = 0;
 		for(MetaEntity entity : getMetaEntities()) {
 
 			if(!isContainedIn(entity,targetEntities) 
 					&& !isSubTypeContainedIn(entity,targetEntities) 
 					&& !entity.isAbstract()) {
-				if(chosen == null) {
-					chosen = entity;
-				}
+//				if(chosen == null) {
+//					chosen = entity;
+//				}
 				System.out.println("Candidate root found: " + entity.getQualifiedName());
-				counter++;
+				//counter++;
+				rootEntities.add(entity);
 			}
 		}
 		
-		if(counter > 1) {
-			String errorMsg = "Error: Found " + counter + " roots!";
-			errorMsg += " Please create a simple root in the metamodel that contains entity " + chosen.getQualifiedName();
-			throw new UnsupportedMetamodelException(errorMsg);
-		}
+//		if(counter > 1) {
+//			String errorMsg = "Error: Found " + counter + " roots!";
+//			errorMsg += " Please create a simple root in the metamodel that contains entity " + chosen.getQualifiedName();
+//			//throw new UnsupportedMetamodelException(errorMsg);
+//		}
 		
-		if (counter == 0) {
+		if (rootEntities.size() == 0) {
 			throw new UnsupportedMetamodelException("All the metamodels must have a root EClass.");
 		}
 
 		System.out.println("Finding root entity in metamodel... DONE");
 		
-		return chosen;
+		return rootEntities;
 	}
 	
 	private boolean isSubTypeContainedIn(MetaEntity entity, Set<MetaEntity> set) {
@@ -167,8 +170,7 @@ public class MetaModelDatabase {
 	}
 
 	private boolean isContainedIn(MetaEntity entity, Set<MetaEntity> set) {
-		boolean result = false;
-		result = set.contains(entity);
+		boolean result = set.contains(entity);
 		for(MetaEntity superEntity : entity.getSuperEntities()) {
 			result |= isContainedIn(superEntity,set);
 		}

@@ -13,6 +13,7 @@ import dsltransEngine.transformer.exceptions.TransformationRefinementLayerExcept
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -173,13 +174,22 @@ public abstract class TransformationLayer  extends TransformationUnit {
 			return;
 		
 		if(this.getOutputModelDatabase().getRootElement() == null) {
-			MetaEntity rootEntity = this.getMetaDatabase().getRootMetaEntity();
-			List<InstanceEntity> ielist = this.getOutputModelDatabase().getAllInstancesOf(rootEntity);
-			if(ielist.isEmpty()) {
-				System.err.println("Oops! There is nothing to output?");
-				return;
-			} else
-				this.getOutputModelDatabase().setRootElement(ielist.get(0));
+			//MetaEntity rootEntity = this.getMetaDatabase().getRootMetaEntity();
+			HashSet<MetaEntity> rootEntities = this.getMetaDatabase().getRootMetaEntities();
+
+			for (MetaEntity rootEntity : rootEntities){
+				List<InstanceEntity> ielist = this.getOutputModelDatabase().getAllInstancesOf(rootEntity);
+//				if(ielist.isEmpty()) {
+//					System.err.println("Error - Could not find root entity: " + rootEntity.getName());
+//					return;
+//				} else
+//					this.getOutputModelDatabase().setRootElement(ielist.get(0));
+				if (!ielist.isEmpty()){
+					this.getOutputModelDatabase().setRootElement(ielist.get(0));
+					break;
+				}
+			}
+
 		}
 		ModelExporter exporter = persistenceLayer.buildModelExporter();
 		exporter.setMetaModelDatabase(this.getMetaDatabase());

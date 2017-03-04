@@ -5,7 +5,7 @@ public interface MetaAttribute {
 	
 	public String getType();
 
-	public MetaEntity getContainnerMetaEntity();
+	public MetaEntity getContainerMetaEntity();
 
 	public Object getDefaultValue();
 	

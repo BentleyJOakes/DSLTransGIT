@@ -20,7 +20,7 @@ public class DSLTransAttribute implements MetaAttribute {
 	}
 
 	@Override
-	public MetaEntity getContainnerMetaEntity() {
+	public MetaEntity getContainerMetaEntity() {
 		return null;
 	}
 

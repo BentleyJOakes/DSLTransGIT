@@ -18,7 +18,7 @@
 		</jar>
 		<sleep seconds="1"/>
 		<delete file="exportedlib/dsltrans_engine_metainf.jar"/>
-		<copy todir="~/Projects/language_verification/DSLTrans/solutions/DSLTrans.lib/" overwrite="false">
+		<copy todir="../../language_verification/DSLTrans/solutions/DSLTrans.lib/" overwrite="false">
 			<resources>
 				<file file="exportedlib/dsltrans_engine.jar"/>
 			</resources>
