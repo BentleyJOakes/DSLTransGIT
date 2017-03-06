@@ -225,12 +225,15 @@ public class MatchFilter {
 		
 		String orderedPositiveRelations = CreateOrderedRelations();
 		float ratio = (_temporalCounter+1) / (_applyCounter+1);
-		
+
+		boolean printHeuristics = false;
 		if(ratio < 5.0) {
-			System.out.println("choosing type 1 heuristics:" + _temporalCounter +", " + _applyCounter + ", " + ratio);
+			if (printHeuristics)
+				System.out.println("choosing type 1 heuristics:" + _temporalCounter +", " + _applyCounter + ", " + ratio);
 			new Clause(getPositiveJoinHead()+"("+orderedPositiveRelations+getPositiveJoinBody()+")");
 		} else {
-			System.out.println("choosing type 2 heuristics:" + _temporalCounter +", " + _applyCounter + ", " + ratio);
+			if (printHeuristics)
+				System.out.println("choosing type 2 heuristics:" + _temporalCounter +", " + _applyCounter + ", " + ratio);
 			new Clause(getPositiveJoinHead2()+"("+orderedPositiveRelations+getPositiveJoinBody2()+")");
 		}
 		
@@ -242,7 +245,7 @@ public class MatchFilter {
 		
 		new Clause(getQueryDifferentEntitiesFact());
 		
-		System.out.println("query: " + getQuery());
+		System.out.println("Query: " + getQuery());
 		
 		JIPTerm ruleMatchTerm = prologParser.parseTerm(getQuery());
 		JIPQuery ruleQuery = prologEngineSingleton.openSynchronousQuery(ruleMatchTerm);
@@ -461,12 +464,12 @@ public class MatchFilter {
 			if(isPositive(ef.getMatchClass())) {
 				String hashCode = getHashCode(binding, ef.getId());
 				ef.setCurrentByHashId(getFilterDatabase(),Integer.parseInt(hashCode));
-				System.out.println("solution entity: " + hashCode + " " + ef.getCurrentEntity().getDotNotation());
+				System.out.println("Solution match entity: " + hashCode + " " + ef.getCurrentEntity().getDotNotation());
 				for(MatchAttributeFilter maf : ef.getFilterAttributes()) {
-					System.out.println("\twith attribute: " + maf.getCurrentAttribute().getMetaAttribute().getName() + " with value: " + (maf.getCurrentAttribute().getValue() == null? "null" : maf.getCurrentAttribute().getValue().toString()));						
+					System.out.println("\tAttribute: " + maf.getCurrentAttribute().getMetaAttribute().getName() + " = " + (maf.getCurrentAttribute().getValue() == null? "null" : maf.getCurrentAttribute().getValue().toString()));
 				}
 				for(InstanceAttribute ia: matchModel.getAllAttributesOf(ef.getCurrentEntity())) {
-					System.out.println("\twith attribute: " + ia.getMetaAttribute().getName() + " with value: " + (ia.getValue()== null? "null" : ia.getValue().toString()));
+					System.out.println("\tInstance Attribute: " + ia.getMetaAttribute().getName() + " = " + (ia.getValue()== null? "null" : ia.getValue().toString()));
 				}
 			}
 		}
@@ -476,12 +479,12 @@ public class MatchFilter {
 				if (!ef.setCurrentByHashId(getFilterDatabase(),Integer.parseInt(hashCode))){
 					return false;
 				}
-				System.out.println("solution entity: " + hashCode + " " + ef.getCurrentEntity().getDotNotation());
+				System.out.println("Solution apply entity: " + hashCode + " " + ef.getCurrentEntity().getDotNotation());
 				for(ApplyAttributeFilter aaf : ef.getFilterAttributes()) {
-					System.out.println("\twith attribute: " + aaf.getCurrentAttribute().getMetaAttribute().getName() + " with value: " + (aaf.getCurrentAttribute().getValue() == null? "null" : aaf.getCurrentAttribute().getValue().toString()));
+					System.out.println("\tAttribute: " + aaf.getCurrentAttribute().getMetaAttribute().getName() + " = " + (aaf.getCurrentAttribute().getValue() == null? "null" : aaf.getCurrentAttribute().getValue().toString()));
 				}
 				for(InstanceAttribute ia: applyModel.getAllAttributesOf(ef.getCurrentEntity())) {
-					System.out.println("\twith attribute: " + ia.getMetaAttribute().getName() + " with value: " + (ia.getValue()== null? "null" : ia.getValue().toString()));
+					System.out.println("\tInstance Attribute: " + ia.getMetaAttribute().getName() + " = " + (ia.getValue()== null? "null" : ia.getValue().toString()));
 				}
 			}
 		}
@@ -489,8 +492,9 @@ public class MatchFilter {
 			if(!isIndirect(rf.getAssociation())) { // lets ignore indirect ones
 				if(isPositive(rf.getAssociation())) {
 					String hashCode = getHashCode(binding, rf.getId());
-					System.out.println("solution relation: " + hashCode);
 					rf.setCurrentByHashId(getFilterDatabase(),Integer.parseInt(hashCode));
+					System.out.println("Solution relation: " + rf.getCurrentRelation().print());
+
 				}
 			}
 		}
@@ -719,7 +723,7 @@ public class MatchFilter {
 			
 		}
 		
-		System.out.println("positiveJoinPredicate: queryjoin("+ getQueryHead()+") :- \n" + queryBody);
+		System.out.println("PositiveJoinPredicate: queryjoin("+ getQueryHead()+") :- \n" + queryBody);
 		_positiveJoinHead = "queryjoin("+ getQueryHead()+") :- ";
 		_positiveJoinBody = queryBody;
 	}
@@ -1165,7 +1169,7 @@ public class MatchFilter {
 			
 		}
 		
-		System.out.println("positiveJoinPredicate2: queryjoin("+ getQueryHead()+") :- \n" + queryBody);
+		System.out.println("PositiveJoinPredicate2: queryjoin("+ getQueryHead()+") :- \n" + queryBody);
 		_positiveJoinHead2 = "queryjoin("+ getQueryHead()+") :- ";
 		_positiveJoinBody2 = queryBody;
 	}

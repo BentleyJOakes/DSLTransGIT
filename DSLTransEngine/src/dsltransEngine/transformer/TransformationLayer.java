@@ -61,7 +61,7 @@ public abstract class TransformationLayer  extends TransformationUnit {
 	}
 
 	protected void executeRules() throws Throwable {
-		System.out.println("execution rules from layer: " + this.getLayer().getDescription());
+		System.out.println("\nExecution rules from layer: " + this.getLayer().getName());
 		boolean hasmatch;
 		
 //DEBUG
@@ -136,7 +136,7 @@ public abstract class TransformationLayer  extends TransformationUnit {
 	protected abstract void prepareInputModel();
 
 	private void buildRules() {
-		System.out.println("building rules from layer: " + this.getLayer().getDescription());
+		System.out.println("\nBuilding rules from layer: " + this.getLayer().getName());
 		for(Object obj : this.getLayer().getHasRule()) {
 			dsltrans.Rule rule = (dsltrans.Rule) obj;
 			getTransformationRules().add(new TransformationRule(this, rule, this._controller.getDatabaseManager()));
@@ -162,9 +162,10 @@ public abstract class TransformationLayer  extends TransformationUnit {
 	}
 	
 	private void output() throws Throwable {
-//		System.out.println("#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
-//		this.getDatabase().dump();
-//		System.out.println("#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");	
+		System.out.println("#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+		this.getOutputModelDatabase().dump();
+		System.out.println("#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+
 		String outputpath = getOutputFilePathURI();
 		
 		if (outputpath != null) {

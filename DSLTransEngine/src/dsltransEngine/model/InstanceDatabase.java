@@ -192,17 +192,22 @@ public abstract class InstanceDatabase {
 
 	public void dump() {
 		{
-			System.out.println("printing loaded entities");
+			System.out.println("Printing loaded entities: Size: " + getInstanceEntities().size());
 			for(InstanceEntity ie : getInstanceEntities()) {
 				System.out.println(ie.print());
+				for(InstanceAttribute ia : getInstanceAttributes()) {
+					if (ia.getEntity().isEqual(ie)){
+						System.out.println(ia.print());
+					}
+				}
 			}
 		}{ 
-			System.out.println("printing loaded attributes");
-			for(InstanceAttribute ia : getInstanceAttributes()) {
-				System.out.println(ia.print());
-			}
+//			System.out.println("printing loaded attributes");
+//			for(InstanceAttribute ia : getInstanceAttributes()) {
+//				System.out.println(ia.print());
+//			}
 		}{	
-			System.out.println("printing loaded relations");
+			System.out.println("Printing loaded relations: Size: " + getInstanceRelations().size());
 			for(InstanceRelation ir : getInstanceRelations()) {
 				System.out.println(ir.print());
 			}

@@ -70,6 +70,10 @@ public abstract class InstanceEntity {
 	
 	public abstract String print();
 
+	public String toString(){
+		return getDotNotation();
+	}
+
 	public abstract boolean isEqual(InstanceEntity source);
 
 	public void setDotNotation(String _dotnotation) {
