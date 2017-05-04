@@ -1,9 +1,9 @@
 package dsltransEngine.transformer.filter;
 
-import com.sun.tools.javac.util.Pair;
 import com.ugos.jiprolog.engine.*;
 import dsltrans.impl.AttributeEqualityImpl;
 import dsltrans.impl.AttributeInequalityImpl;
+import dsltransEngine.Pair;
 import dsltransEngine.metamodel.MetaModelDatabase;
 import dsltransEngine.model.*;
 import dsltransEngine.transformer.PrologEngineSingleton;
@@ -355,9 +355,9 @@ public class MatchFilter {
 			Map<String,String> mapString = new HashMap<String,String>();
 			
 			for(ApplyEntityFilter ef: getApplyEntityFilters()) {
-				Pair<InstanceDatabase,MetaModelDatabase> pair = 
+				Pair<InstanceDatabase,MetaModelDatabase> pair =
 					ef.resolveForeignApplyClasses(control,applyModel, applyMetaModel);
-				ef.process(pair.fst, pair.snd);
+				ef.process(pair.getFirst(), pair.getSecond());
 	
 				if(ef.getFilterDatabase().isEmpty())
 					return false;
@@ -365,7 +365,7 @@ public class MatchFilter {
 					final String id = "i"+Integer.toString(ie.hashCode());
 					if(!mapString.containsKey(id+ie.getDotNotation())) {
 						String factString = entityFact + "(" + id + ", " + ie.getDotNotation() + 
-						", " + generateAttributeValues(ie,pair.fst,pair.snd) + ",[0],[0])";						
+						", " + generateAttributeValues(ie,pair.getFirst(),pair.getSecond()) + ",[0],[0])";
 						new Clause(factString);
 						map.put(id, ie);
 						mapString.put(id+ie.getDotNotation(),factString);
@@ -701,7 +701,11 @@ public class MatchFilter {
 		
 		String cutclause = getCutClause();
 		if(!cutclause.isEmpty()){
-			queryBody += "," + cutclause;
+			if(!first){
+				queryBody += ",";
+			}
+			first = false;
+			queryBody += cutclause;
 		}	
 
 		generateDifferentEntitiesFactCall(positiveMatchAndApplyEntitiesIDList);

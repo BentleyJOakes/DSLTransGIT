@@ -8,6 +8,23 @@ public class InstanceRelation {
 	private MetaRelation _relation;
 	
 	public InstanceRelation(InstanceEntity source, MetaRelation relation, InstanceEntity target) {
+
+		boolean isIssue = source == null || source.getMetaEntity() == null ||
+				target == null || target.getMetaEntity() == null ||
+				relation == null;
+		if (isIssue) {
+			String errorMsg = "Error: Issue creating an InstanceRelation!\n";
+			String srcStr = source==null?"null":source.getDotNotation();
+			String trgtStr = target==null?"null":target.getDotNotation();
+			String relStr = relation==null?"null":relation.getName();
+			errorMsg += "Source: " + srcStr + "\n";
+			errorMsg += "Target: " + trgtStr + "\n";
+			errorMsg += "Relation: " + relStr + "\n";
+			for(StackTraceElement ste : Thread.currentThread().getStackTrace()){
+				errorMsg += ste + "\n";
+			}
+			throw new IllegalArgumentException(errorMsg);
+		}
 		setSource(source);
 		setTarget(target);
 		setRelation(relation);

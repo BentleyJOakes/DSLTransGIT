@@ -1,7 +1,7 @@
 package dsltransEngine.transformer.filter;
 
-import com.sun.tools.javac.util.Pair;
 import dsltrans.ApplyAttribute;
+import dsltransEngine.Pair;
 import dsltransEngine.metamodel.MetaEntity;
 import dsltransEngine.metamodel.MetaModelDatabase;
 import dsltransEngine.model.InstanceDatabase;
